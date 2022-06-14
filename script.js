@@ -21,13 +21,13 @@ function playRound(playerSelection, computerSelection) {
     if (playerSelection == "rock") {
         switch (computerSelection) {
             case "rock":
-                return "Tie!";
+                return "tie";
                 break;
             case "paper": 
-                return "You lose! Paper covers rock!";
+                return "lose";
                 break;
             case "scissors":
-                return "You win! Rock beats scissors!";
+                return "win";
                 break;
             default: 
                 return;
@@ -36,13 +36,13 @@ function playRound(playerSelection, computerSelection) {
     else if (playerSelection == "paper") {
         switch (computerSelection) {
             case "rock":
-                return "You win! Paper covers rock!";
+                return "win";
                 break;
             case "paper": 
-                return "Tie!";
+                return "tie";
                 break;
             case "scissors":
-                return "You lose! Scissors cut paper!";
+                return "lose";
                 break;
             default: 
                 return;
@@ -51,13 +51,13 @@ function playRound(playerSelection, computerSelection) {
     else if (playerSelection == "scissors") {
         switch (computerSelection) {
             case "rock":
-                return "You lose! Rock beats scissors!";
+                return "lose";
                 break;
             case "paper": 
-                return "You win! Scissors cut paper!";
+                return "win";
                 break;
             case "scissors":
-                return "Tie!";
+                return "tie";
                 break;
             default: 
                 return;
@@ -71,21 +71,22 @@ function game(numberOfRounds) {
     let roundsWon = 0;
     let roundsLost = 0;
     let roundsTied = 0;
+    let results = "";
     for (let i = 0; i < numberOfRounds; i++){
         let playerPlay = prompt("Rock, Paper, Scissors?", "Rock");
         let outcome = playRound(playerPlay, computerPlay());
         console.log(outcome);
-        if (outcome.toLowerCase().includes("win")) {
+        if (outcome == "win") {
             roundsWon++;
         }
-        else if (outcome.toLowerCase().includes("lose")) {
+        else if (outcome == "lose") {
             roundsLost++;
         }
         else {
             roundsTied++;
         }
+        console.log(roundsWon + "W - " + roundsLost + "L - " + roundsTied + "T");
     }
-    let results = "";
     results += "Player: " + roundsWon;
     results += "\nComputer: " + roundsLost;
     if (roundsTied > 0) {
