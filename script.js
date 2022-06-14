@@ -67,4 +67,38 @@ function playRound(playerSelection, computerSelection) {
         return "Invalid input";
     }
 }
-console.log(playRound("   RoCK   ", computerPlay()));
+function game(numberOfRounds) {
+    let roundsWon = 0;
+    let roundsLost = 0;
+    let roundsTied = 0;
+    for (let i = 0; i < numberOfRounds; i++){
+        let outcome = playRound("rock", computerPlay());
+        console.log(outcome);
+        if (outcome.toLowerCase().includes("win")) {
+            roundsWon++;
+        }
+        else if (outcome.toLowerCase().includes("lose")) {
+            roundsLost++
+        }
+        else {
+            roundsTied++
+        }
+    }
+    let results = "";
+    results += "Player: " + roundsWon;
+    results += "\nComputer: " + roundsLost;
+    if (roundsTied > 0) {
+        results += "\nTies: " + roundsTied;
+    }
+    if (roundsWon > roundsLost) {
+        results += "\nYou won!";
+    }
+    else if (roundsWon < roundsLost) {
+        results += "\nYou lost!";
+    }
+    else {
+        results += "\nTie game!";
+    }
+    return results;
+}
+console.log(game(5));
