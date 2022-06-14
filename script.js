@@ -72,16 +72,17 @@ function game(numberOfRounds) {
     let roundsLost = 0;
     let roundsTied = 0;
     for (let i = 0; i < numberOfRounds; i++){
-        let outcome = playRound("rock", computerPlay());
+        let playerPlay = prompt("Rock, Paper, Scissors?", "Rock");
+        let outcome = playRound(playerPlay, computerPlay());
         console.log(outcome);
         if (outcome.toLowerCase().includes("win")) {
             roundsWon++;
         }
         else if (outcome.toLowerCase().includes("lose")) {
-            roundsLost++
+            roundsLost++;
         }
         else {
-            roundsTied++
+            roundsTied++;
         }
     }
     let results = "";
