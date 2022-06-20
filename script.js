@@ -104,10 +104,13 @@ function game(numberOfRounds) {
     return results;
 }
 const buttons = document.querySelectorAll('button');
-console.log(buttons);
+const results = document.querySelector(".results");
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
-        let playerPlay = button.id;
-        console.log(playRound(playerPlay, computerPlay()));
+        let playerMove = button.id;
+        let computerMove = computerPlay();
+        results.textContent = "Player: " + playerMove +
+            " Computer: " + computerMove +
+            " Results: " + playRound(playerMove, computerMove);
     });
 });
