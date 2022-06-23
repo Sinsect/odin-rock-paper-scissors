@@ -73,8 +73,10 @@ const results = document.querySelector('.results');
 const roundText = document.createElement('div');
 const playerMoveText = document.createElement('p');
 const computerMoveText = document.createElement('p');
+const roundResultText = document.createElement('p');
 roundText.appendChild(playerMoveText);
 roundText.appendChild(computerMoveText);
+roundText.appendChild(roundResultText);
 const scoreText = document.createElement('p');
 const gameEndText = document.createElement('p');
 results.appendChild(roundText);
@@ -92,6 +94,7 @@ function clearResults() {
     losses = 0;
     ties = 0;
     roundTotal = 0;
+    roundResultText.textContent = "";
     scoreText.textContent = "";
     gameEndText.textContent = "";
 }
@@ -100,15 +103,19 @@ function updateResults(roundResult) {
     if (wins >= winCondition || losses >= winCondition) {
         clearResults();
     }
+    roundResultText.textContent = "Round winner: ";
     switch (roundResult) {
         case "win":
             wins++;
+            roundResultText.textContent += " Player";
             break;
         case "lose":
             losses++;
+            roundResultText.textContent += " Computer";
             break;
         case "tie":
             ties++;
+            roundResultText.textContent += " Tie";
             break;
         default:
             break;
@@ -118,13 +125,13 @@ function updateResults(roundResult) {
 
 function updateResultsText() {
     scoreText.textContent = "\nW: " + wins +
-        " L: " + losses;
+        " L: " + losses + " T: " + ties;
     let outcome = "";
     if (wins == 5) {
-        outcome += " You win!";
+        outcome += "Game Over! You win!";
     }
     else if (losses == 5) {
-        outcome += " You lose!";
+        outcome += "Game Over! You lose!";
     }
     gameEndText.textContent += outcome;
 
