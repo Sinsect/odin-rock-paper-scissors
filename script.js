@@ -1,19 +1,21 @@
+//randomly decides and returns computer move between rock, paper, and scissors
 function computerPlay() {
     let roll = Math.floor(Math.random() * 3);
     switch (roll) {
-        case 0: 
+        case 0:
             return "rock";
             break;
-        case 1: 
+        case 1:
             return "paper";
             break;
-        case 2: 
+        case 2:
             return "scissors";
             break;
         default:
             return "computer forgot to make a move!";
     }
 }
+//compares player and computer choices and returns winner
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.trim().toLowerCase();
     console.log("Computer: " + computerSelection);
@@ -23,13 +25,13 @@ function playRound(playerSelection, computerSelection) {
             case "rock":
                 return "tie";
                 break;
-            case "paper": 
+            case "paper":
                 return "lose";
                 break;
             case "scissors":
                 return "win";
                 break;
-            default: 
+            default:
                 return;
         }
     }
@@ -38,13 +40,13 @@ function playRound(playerSelection, computerSelection) {
             case "rock":
                 return "win";
                 break;
-            case "paper": 
+            case "paper":
                 return "tie";
                 break;
             case "scissors":
                 return "lose";
                 break;
-            default: 
+            default:
                 return;
         }
     }
@@ -53,13 +55,13 @@ function playRound(playerSelection, computerSelection) {
             case "rock":
                 return "lose";
                 break;
-            case "paper": 
+            case "paper":
                 return "win";
                 break;
             case "scissors":
                 return "tie";
                 break;
-            default: 
+            default:
                 return;
         }
     }
@@ -67,50 +69,114 @@ function playRound(playerSelection, computerSelection) {
         return "Invalid input";
     }
 }
-function game(numberOfRounds) {
-    let roundsWon = 0;
-    let roundsLost = 0;
-    let roundsTied = 0;
-    let results = "";
-    for (let i = 0; i < numberOfRounds; i++){
-        let playerPlay = prompt("Rock, Paper, Scissors?", "Rock");
-        let outcome = playRound(playerPlay, computerPlay());
-        console.log(outcome);
-        if (outcome == "win") {
-            roundsWon++;
+const results = document.querySelector('.results');
+const roundText = document.createElement('div');
+const playerMoveText = document.createElement('p');
+const computerMoveText = document.createElement('p');
+roundText.appendChild(playerMoveText);
+roundText.appendChild(computerMoveText);
+const scoreText = document.createElement('p');
+const gameEndText = document.createElement('p');
+results.appendChild(roundText);
+results.appendChild(scoreText);
+results.appendChild(gameEndText);
+console.log(results.children);
+let wins = 0;
+let losses = 0;
+let ties = 0;
+let roundTotal = 0;
+let roundLimit = 5;
+//empty all results data;
+function clearResults() {
+    wins = 0;
+    losses = 0;
+    ties = 0;
+    roundTotal = 0;
+    scoreText.textContent = "";
+    gameEndText.textContent = "";
+}
+//update results according to results of round
+function updateResults(roundResult) {
+    if (roundTotal >= roundLimit) {
+        clearResults();
+    }
+    switch (roundResult) {
+        case "win":
+            wins++;
+            break;
+        case "lose":
+            losses++;
+            break;
+        case "tie":
+            ties++;
+            break;
+        default:
+            break;
+    }
+    roundTotal++;
+}
+function updateResultsText() {
+    scoreText.textContent = "\nW: " + wins +
+        " L: " + losses + " T: " + ties;
+    if (roundTotal == roundLimit) {
+        let outcome = " Game over!";
+        if (wins > losses) {
+            outcome += " You win!";
         }
-        else if (outcome == "lose") {
-            roundsLost++;
+        else if (losses > wins) {
+            outcome += " You lose!";
         }
         else {
-            roundsTied++;
+            outcome += " Tie game!";
         }
-        console.log(roundsWon + "W - " + roundsLost + "L - " + roundsTied + "T");
+        gameEndText.textContent += outcome;
     }
-    results += "Player: " + roundsWon;
-    results += "\nComputer: " + roundsLost;
-    if (roundsTied > 0) {
-        results += "\nTies: " + roundsTied;
-    }
-    if (roundsWon > roundsLost) {
-        results += "\nYou won!";
-    }
-    else if (roundsWon < roundsLost) {
-        results += "\nYou lost!";
-    }
-    else {
-        results += "\nTie game!";
-    }
-    return results;
 }
+// function game() {
+//     let numberOfRounds = 5;
+//     let roundsWon = 0;
+//     let roundsLost = 0;
+//     let roundsTied = 0;
+//     let resultsTracker = "";
+//     updateResults("");
+//     for (let i = 0; i < numberOfRounds; i++){
+//         let outcome = playRound(playerPlay, computerPlay());
+//         console.log(outcome);
+//         if (outcome == "win") {
+//             roundsWon++;
+//         }
+//         else if (outcome == "lose") {
+//             roundsLost++;
+//         }
+//         else {
+//             roundsTied++;
+//         }
+//         resultsTracker = roundsWon + "W - " + roundsLost + "L - " + roundsTied + "T";
+//         updateResults(resultsTracker);
+//     }
+//     if (roundsTied > 0) {
+//         resultsTracker += "\nTies: " + roundsTied;
+//     }
+//     if (roundsWon > roundsLost) {
+//         resultsTracker += "\nYou won!";
+//     }
+//     else if (roundsWon < roundsLost) {
+//         resultsTracker += "\nYou lost!";
+//     }
+//     else {
+//         resultsTracker += "\nTie game!";
+//     }
+//     return results;
+// }
 const buttons = document.querySelectorAll('button');
-const results = document.querySelector(".results");
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         let playerMove = button.id;
         let computerMove = computerPlay();
-        results.textContent = "Player: " + playerMove +
-            " Computer: " + computerMove +
-            " Results: " + playRound(playerMove, computerMove);
+        let roundResult = playRound(playerMove, computerMove);
+        playerMoveText.textContent = "Player: " + playerMove;
+        computerMoveText.textContent = "Computer: " + computerMove;
+        updateResults(roundResult);
+        updateResultsText();
     });
 });
