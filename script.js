@@ -85,7 +85,7 @@ let wins = 0;
 let losses = 0;
 let ties = 0;
 let roundTotal = 0;
-let roundLimit = 5;
+let winCondition = 5;
 //empty all results data;
 function clearResults() {
     wins = 0;
@@ -97,7 +97,7 @@ function clearResults() {
 }
 //update results according to results of round
 function updateResults(roundResult) {
-    if (roundTotal >= roundLimit) {
+    if (wins >= winCondition || losses >= winCondition) {
         clearResults();
     }
     switch (roundResult) {
@@ -115,22 +115,19 @@ function updateResults(roundResult) {
     }
     roundTotal++;
 }
+
 function updateResultsText() {
     scoreText.textContent = "\nW: " + wins +
-        " L: " + losses + " T: " + ties;
-    if (roundTotal == roundLimit) {
-        let outcome = " Game over!";
-        if (wins > losses) {
-            outcome += " You win!";
-        }
-        else if (losses > wins) {
-            outcome += " You lose!";
-        }
-        else {
-            outcome += " Tie game!";
-        }
-        gameEndText.textContent += outcome;
+        " L: " + losses;
+    let outcome = "";
+    if (wins == 5) {
+        outcome += " You win!";
     }
+    else if (losses == 5) {
+        outcome += " You lose!";
+    }
+    gameEndText.textContent += outcome;
+
 }
 // function game() {
 //     let numberOfRounds = 5;
